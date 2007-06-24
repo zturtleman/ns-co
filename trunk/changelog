@@ -1,0 +1,1135 @@
+$Id: changelog,v 1.84 2004/09/12 10:00:45 defconx Exp $
+
+--defconx: start
+
+2006/01/25:
+* beautified the entire codebase using 'astyle.sourceforge.net'
+* fixed alot of crash bugs
+* added new trapcall for extended sound calls
+* added new cursor_dn function to the ui
+* resized cursor to 64 points
+* cleaned up code ( removed alot of ta/q3a functions )
+* removed chat rendering from clientgame
+
+--defconx: end
+
+2004/09/12:
+* patched g_seals.c
+	fix for new menu system (gamestate will only be sent if it has
+	changed)
+
+2004/09/07:
+* patched g_seals.c
+	fix for new menu system (GameState)
+* patched ui_main.c
+	added ui_gamestate variable
+* patched files concerning client/server communication
+	server tells client now the gamestate (EV_GAMESTATE)
+
+2004/08/29:
+* patched menu files
+	new menu system
+* patched ui_main.c
+	removed XP lag
+	new handeling of inventory for character submission
+* patched g_seals.c
+	new handling in inventory submission (includes character)
+
+2004/08/28:
+* patched cg_main.c
+	removed a buffer overflow in cg_weapons array
+	added com_maxfps protection
+	removed defcons nutshell
+* patched cg_view.c
+	removed defcons nutshell
+* patched cg_weapons.c
+	removed a buffer overflow in weapon handling
+	removed a buffer overflow in weaponOffsets array
+	rewrote ammunition stuff
+* patched bg_misc.c
+	rewrote ammunition stuff
+	fixed BG_GotWeapon (defcons nutshell)
+* patched bg_pmove.c
+	rewrote ammunition stuff
+* patched bg_public.h
+	removed defcons nutshell
+* patched g_active.c
+	rewrote ammunition stuff
+* patched g_cmds.c
+	removed defcons nutshell
+* patched g_items.c
+	rewrote ammunition stuff
+	removed defoncs nutshell
+* patched g_misc.c
+	rewrote ammunition stuff
+* patched g_missile.c
+	real handling of 40mm Grenades
+	rewrote ammunition stuff
+* patched g_mover.c
+	fixed soundcode for elevator doors
+* patched g_seals.c
+	rewrote ammunition stuff (buffer overflow was here)
+	removed the ability to scope while in GL mode
+	restricted number of grenades to SEALS_MAX_GRENADES / cheat protection
+* patched g_weapon.c
+	removed ugly code
+	rewrote ammunition stuff
+* patched variables.h
+	introduced SEALS_MAX_GRENADES (default 4)
+	rewrote ammunition stuff
+* patched ui_local.h
+	increased MAX_MENUITEMS from 96 to 256 (was buffer overflow)
+* patched ui_main.c
+	removed unnessesary code
+	added CG_HandleGrenadeButton
+* patched ui_shared.h
+	increased MAX_MENUITEMS from 96 to 256 (was buffer overflow)
+* patched menudef.h
+	introduced new grenade selection system
+	fixed weapon numbers (removed defcons nutshell)
+
+2004/08/24:
+* patched g_mover.c 
+	removed the bug with door rotating (soundbug)
+* patched variables.h
+	tweaked the GL
+* patched g_seals.c (weaponmode)
+	no scope while using the GL
+
+2004/08/23:
+* patched g_mover.c
+	added door-sounds for elevator-doors
+* patched g_trigger.c
+	made the trigger_toggle trigger only for one team (usable
+	with team value)
+
+2004/08/18:
+* patched cg_view.c
+	removed the smokegren bug (when picking up briefcase)
+	look for WP_SMOKE - 1
+* patched cg_weapons.c
+	tweaked the flashlight, it's not tooooo bad now, however
+	the visual sux, but they do the job (blame q3)
+
+2004/08/15:
+* patched lots of files
+	func_elevator_button spawns a message when pointed on it
+	new trigger: trigger_use
+	tweaked smokegrenades
+	tweaked GL
+* patched g_spawn.c g_trigger.c
+	added trigger_toggle
+
+2004/08/11:
+* patched g_weapon.c
+	bullets lose damage when penetrating a wall
+	wall penetration tweaked (walls must be thin to let the client pass)
+	fixed bug in Fire_Lead (one was able to shoot himself in some very
+	unlikely circumstances)
+* patched cg_newDraw.c
+	no crosshair for m4/ak47 when in GL mode
+	smokegrenades to 1/2 secs
+
+2004/08/10:
+* patched g_missile g_combat g_weapons ui_main ui_shared g_seals
+	added hand-throwable smokegrenades
+	added old GL
+	fixed but in Fire_Lead
+
+2004/08/09:
+* patched g_missile.c g_combat.c g_weapons.c
+	added support for shootable grenades
+
+2004/08/08:
+* patched g_mover.c
+	fixed last bug with elevator code, now it works fine
+
+2004/08/07:
+* patched g_gameentities.c g_mover.c
+	included func_elevator and func_elevator_button, elevator doors
+	work with func_door
+
+2004/08/06:
+* patched g_unlag.c g_weapon.c g_active.c g_main.c g_local.h
+	reincluded full antilag, but one can disable it with the server
+	cvar g_antilag (default is 1)
+* patched bg_pmove.c
+	fixed the stamina consumption bug
+	sprinting lasts now longer
+	stamina damage for jumping
+* patched g_combat.c
+	rewrote G_Damage lots of stuff
+	stamina damage for grenades
+* patched variables.h
+	range of grenades is now bigger
+	kevlar penetration variables for every weapon
+
+2004/08/01:
+* patched g_unlag.c g_seals.h g_weapon.c g_active.c
+	reincluded unlag, but only with 50% effect
+* patched the above files
+	removed antilag again (sux)
+* patched g_active.c
+	made the falldamage a lil bit higher
+* Houston, we have a problem:
+	the player hit box is not only used for hit-detection, but also for
+	hit-detection with walls. lowering it to fix the headshotzone will break
+	the hit-detection with the world (players are able to 'look' through walls.
+	what to do now? we definitly have to fix the hitboxes :|
+	Actually we would have to switch to hitboxes everytime, we make a trace to
+	see if a weapon hits a player. Meaning go through all entities, if it's a 
+	player entity, fix hitboxes, make the trace, unfix hitboxes.
+	It's a hack, but at the moment the only possible solution in my mind
+* Houston, problem solved
+* patched g_weapons.c g_seals.h g_seals.c
+	added functions NS_FixHitboxes and NS_RestoreHitboxes. for weapon hits just
+	put NS_FixHitboxes in front of the trace and NS_RestoreHitboxes after the
+	trace.
+
+2004/07/31:
+* patched g_combat.c g_seals.c
+	fixed falling damage
+* patched bg_pmove.c
+	fixed falling damage
+* patched g_combat.c g_seals.c bg_pmove.c (search for MAXS_Z)
+	fixed hitzones
+
+2004/07/20:
+* patched game/g_unlag.c and all related files
+	removed unlagged code
+
+2004/05/15:
+* added docs/dd_195.tex
+	i started writing a design doc for ns:co 1.95
+
+2004/04/04:
+* patched game/g_seals.c
+	patched all necessary functions (related to XP system and 
+	NS_ActiveRound) to remove the XP exploit. changing XP is only
+	possible during warmup, when dead AND after a team has won
+	the round.
+
+2004/04/03
+* patched cgame/cg_draw.c
+	patched to use new sniperscopeshaders from democritus
+* patched cgame/cg_main.c
+	only using 16 bit sniperscopeshaders, patched to use the
+	new sniperscopeshaders from democritus
+
+2004/03/29a:
+* patched game/variables.h
+	fixed weights
+* patched game/cg_main.c
+	fixed sniperscopeshaders
+* patched game/g_seals.c NS_CalcWeight
+	fixed maximum weight
+
+2004/03/27a:
+* patched game/g_active.c G_PlayerThink
+  fixed scoping while climbing
+* patched game/g_seals.c NS_NavySeals_ClientInit
+  fixed bug where you could have a weapon without the necessary XP requirements
+
+2004/03/25b:
+* patched game/q_math.c
+	there are now 64 colors thx to stragz
+* patched game/q_shared.h
+	fixed ColorIndex / g_color_table prototype
+
+2004/03/25a:
+* patched game/g_seals.c / NS_CalcWeight
+  reworked weight function again
+* patched game/variables.h
+  tweaked the magazines weights
+
+2004/03/24c:
+* patched game/variables.h
+	small tweaks regarding weight
+
+2004/03/24b:
+* patched game/variables.h
+  fixed that one shotgun round for 870/M590 does not weight 5kg ;)
+* patched game/g_seals.c
+  fixed range check for weight
+  fixed player init: a player only gets a weaponaddon if he has the
+    correct requirements now
+
+2004/03/24a:
+* patched game/variables.h
+  slower rof for psg1 and sl8sd
+  added weights of weapons into definition file
+  added weights of armor into definition file
+  added weights of ammo into definition file
+  added speed factor (which depends on chars accuracy attribute)
+  changed maximum speed factor to 30% + (was 40% +)
+* patched game/g_seals.c / NS_CalcWeight
+  changed to weight definitions in game/variables.h
+* patched game/g_seals.c / NS_CalcSpeed
+  changed to new calculation method (which is way faster)
+
+2004/03/23b:
+* patched game/g_seals.c / NS_CalcWeight
+  made the m249 heavier (3.5kg, was 2.5kg)
+
+2004/03/23a:
+* patched game/bg_pmove.c / PM_GetWeaponTime
+  changed the weapon fire rate of m14 (25% lower firerate)
+  changed the weapon fire rate of m249 (20% more firerate)
+  outsourced the weapon fire rates into game/variables.h
+* patched game/variables.h
+  added the weapon firerates defines
+* patched cgame/cg_local.h
+  changed sniperScopeShader to have 6 entries
+* patched cgame/cg_main.c / CG_RegisterGraphics
+  sniperScopeShader[0] - [2]: seals scope shaders
+  sniperScopeShader[3] - [5]: tango scope shaders
+* patched cgame/cg_draw.c / CG_DrawSniperRifle
+  added different scopeshaders for different weapons (while scoped)
+* patched game/cg_weapons.c / CG_CalculateWeaponPosition
+  fixed drawback for pistols / sniperrifles
+* patched ui/ingame_options.menu ui/options.menu
+  removed smallguns from menu
+* patched cgame/cg_weapons.c
+  removed smallguns from: CG_WeaponAnimation and CG_Bullet
+
+2004/03/10:
+* patched cgame/cg_consolecomds.c / CG_IronSightDown_f / CG_IronSightUp_f
+	deactivated both functions (seemed to be activated since 1.0 and 
+	made aiming easier oO). that means ironsight mode was basicly
+  implemented but not used by almost anyone, however it made your
+  accuracy better.
+* added kdevelop project / Makefile
+	just for lazy reasons
+
+2004/03/08:
+* patched game/cg_newDraw.c / CG_DrawPlayerArmorValue
+	removed bug with ammo < 0 rendered
+* patched game/cg_weapons.c
+	- halfed drawback of weapons when running straight to a wall
+	- fixed tracers for new gun models
+
+2004/03/06:
+* patched game/q_shared.c / game/q_shared.h g_color_table colorindex
+	made the color table have 32 colors and colorindex just calculating
+	the color via an & 31
+* patched game/g_clientClientCleanName
+	allowed all colors except ^^
+* patched game/variables.h
+	- changed weapon kickback of pdw from 1.1 (like mp5) to 1.5, the 
+	  weapon really was overpowered :|
+	- added SEALS_MAXKNOCKBACK variable.
+* patched game/g_combat.c / G_Damage
+	changed knockback to max SEALS_MAXKNOCKBACK, removed knockback
+	modifiers by hitzone
+* patched game/g_seals.h
+	added external g_allowTimelimitVote, g_allowTeampointlimitVote
+* patched game/g_main.c
+	added server cvars g_allowTimelimitVote, g_allowTeampointlimitVote
+* patched game/g_cmds.c / Cmd_CallVote_f
+	added protection for votes: timelimit, teampointlimit, friendlyfire,
+	map_restart, nextmap, clientkick
+* TODO: game/g_combat.c / G_Damage
+	clean this function up and make every aspect configurable from 
+	header files!
+
+2004/02/28b:
+* patched game/g_combat.c G_RadiusDamage
+	grenades inflict 260 damage if withing SEALS_DEATHGRENRADIUS which
+	is set to 64 atm
+
+2004/02/28a:
+* patched game/g_client.c ClientCleanName
+	- only ascii characters < '!' and > '~' are allowed in a name
+	- only colors ^1 .. ^9 are allowed in a name
+	- a max of 3 repeated characters is allowed
+	- no leading spaces anymore
+* patched game/q_shared.h ColorIndex
+	only colors between 0 and 9 are allowed because g_color_table
+	has size 10
+* patched cgame/cg_weapons.c CG_WeaponAnimation
+	removed weapon position modifiers
+* patched cgame/cg_main.c cg_gunX
+	set value to 0 (was -1.5)
+
+2004/02/18:
+* patched game/variables.h
+	- added a lil bit more accuracy to the m249 (0.3, was 0.4 before,
+	  ak47 is 0.2)
+	- added more damage to the m249 (18, was 16 before, ak47 is 18)
+
+2004/02/16:
+* patched game/variables.h
+	added a lil bit more recoil to the saw
+* patched cgame/cg_info.c game/bg_public.h
+	GAMEVERSION: Navy Seals : Covert Operations - Beta 1.91
+
+2004/02/13b:
+* patched game/g_seals.c NS_RandomPlayer
+	changed the behaviour if no random player is found
+
+2004/02/13a:
+* patched game/g_weapon.c NS_GiveBombToPlayers
+	added a log-message for gtk OBJECTIVE: [PlayerNum] "playername" got c4
+* patched game/g_seals.c CheckTeamplay
+	fixed the bug if a team has no bomb player, it could crash the server.
+* patched game/g_weapon.c FireLead cgame/cg_weapons.c Predict_Fire_Lead
+	removed the crouching bonus for the pdw weakening it over distance
+
+2004/02/10c,10d,12a:
+* patched game/variables.h
+	tweaked grenades
+* patched game/g_combat.c PlayerDie
+	the player will only spectate his attacker if g_teamlockcamera=0
+
+2004/02/10b:
+* patched game/bg_public.h
+	gave spas15 8 pellets per shot like other shotguns
+* patched game/variables.h
+	- increased mp5 / mac10 / p9s / glock damage by 2 points (about 14% plus)
+	- added variable modifiers for damage when using silencer / muzzle hider
+	  silencer - 3, muzzle hider -1
+* patched game/g_weapon.c 
+	added new code for the calculation of damage related to silencer / muzzle
+	hider
+* concluding
+	- mp5 / mac10 without silencer: 17, with silencer 14, was 15 before
+	- p9s / glock without silencer: 13, with silencer 10, was 11 before
+	- m4 / ak57   without muzzle hider: 18, with muzzle hider 17, was 18 before
+
+2004/02/10a:
+* patched game/g_weapon.c FireWeapon
+	knockback to all weapons if 0 <= g_gravity < 800
+* patched game/bg_misc.c BG_CalcSpeed
+	jumping now with lower vertical velocity
+
+2004/02/09a:
+* patched cgame/cg_draw.c drawcrosshair
+	- no crosshair when not wearing a weapon
+	- crosshair blinks now 10 times a second max in
+	  complementary colors
+	- added console variable cg_lowAmmoWarning, default = 0
+		indicates number of bullets left in magazine before the
+	  blinking starts
+
+2004/02/08a:
+* patched cgame/cg_draw.c drawcrosshair
+	- crosshair blinks red when out of ammo
+	- fixed cg_crosshairWidth setting
+* patched game/g_seals.c game/g_seals.h
+	added NS_SendMessageToTeam
+* patched game/g_weapon.c bomb-code
+	fixed a bug with the new undefusable bombs
+* patched game/g_weapon.c Weapon_C4
+	added an undefusable bomb planted message to the team that
+	has to fulfill a mission objective before the bomb blows up
+
+2004/02/07c:
+* patched game/g_gameentities.c game/variables.h
+	- removed the NS_FLAGS from gameentities and put them into variables
+	- added a variable NS_FLAG_UNDEFUSABLE
+* patched game/g_gameentities.c info_bomb_disarm
+	- addmission now is the number of missions a team gets when the
+	bomb explodes / is defused
+	- defusable must be 0 to make the bomb not defusable
+* patched game/g_weapon.c bomb_detonate
+	will give now addmission number of done missions
+* patched game/g_weapon.c bomb_touch
+	added code to prevent defusing if defusable is set to 0
+* patched game/g_weapon.c bomb_use
+	added code to prevent defusing if defusable is set to 0
+* patched game/g_weapon.c bomb_defused
+	fixed the number of points a team get according to addmission setting
+* patched game/g_weapon.c Weapon_C4
+	when the c4 gets spawned the bot_chattime of the c4 will contain
+	the number of missions to add
+
+2004/02/07-schakal:
+* patched game/g_seals.c NS_LaunchEntities
+	added a reset of target_delay every roundstart
+
+2004/02/07ab:
+* patched cgame/cg_draw.c CG_DrawCrosshair
+	made crosshair spread smaller (only a lil bit)
+* patched cgame/cg_weapons.c game/g_weapon.c Fire_Lead
+	no boni for crouching for pistols
+* Patched game/variables.h
+	more recoil to pistols
+* patched cgame/cg_weapons.c weapon animation
+	fixed bug with overlapping sinus waves
+
+2004/02/06a:
+* patched cgame/cg_draw.c CG_DrawCrosshair
+	made crosshair fading stronger
+	made crosshair spread bigger
+	made crosshair fade time longer (accuracy has more effect)
+	made crosshair spread be dependant on accuracy
+	third crosshair effect (like 1.1 was)
+	cg_crosshairFade 0 : like in ns:co 1.9 but fades lil more away
+	cg_crosshairFade 1 : like 0 but fades away while sprinting
+	cg_crosshairFade 2 : like in ns:co 1.1
+* patched game/g_weapon.c Fire_Lead
+	took the accuracy attribute of a character into value. it gives a
+	maximum 30% boost to the bullets deflection before they leave the
+	weapon. after they left the weapon it's still strength the recoil
+	depends on.
+* patched cgame/cg_weapons.c CG_PredictFireLead
+	adapted to the Fire_Lead from the game code
+* patched game/variables.h
+	removed the 60% accuracy bonus for a laser pointer and replaced it
+	by a 40% bonus
+	made grenades fly further (350 now, was 300)
+	included a SEALS_NO_GRENADES_CROSSHAIR
+
+2004/02/05a-c:
+* patched game/g_seals.c NS_UpdateHeadBBox
+	tweaked headboxes again
+* patched game/g_gameentities.c trigger_missionobjective
+	spotted a bug with info_bomb_disarm and trigger_missionobjective, not
+	fixable by now
+
+2004/02/04-norelease:
+* patched game/g_seals.c NS_UpdateHeadBBox
+	lifted tango hitbox by 1.5 qu when wearing a helmet
+* patched game/g_cmds.c Cmd_DebugMissions_f
+	added server command debug_mission which is only avialable if
+	cheats are enabled. it shows the current state of the missions.
+* patched game/g_cmds.c Cmd_FollowCycle_f
+	removed the hax from spectator bug, spectator bug still in
+* patched game/g_seals.c NS_LocationDamage
+	removed the tango headshotbox hax
+
+2004/02/04a:
+* patched game/variables.h
+	made weapons to have a maximum deflection of 5 degree
+
+2004/02/03b-l:
+* patched game/g_combat.c G_Damage
+* patched game/g_seals.c pointinfront
+	tweaking headshot / faceshot
+* patched game/g_seals.c NS_UpdateHeadBBox
+	fixed the headshotbox when leaning head to the right
+* patched cgame/cg_draw.c
+	made the fading crosshair fade more
+* patched game/cg_playerstate NS_RecalcPlayerstate
+	removed the change of weapons
+* patched game/g_weapons.c
+	removed a bug when the bomb explodes at the end of the round
+	in bomb_explode (now mission objectives are checked first to
+	determine the winner)
+
+2004/02/03a:
+* patched cgame/cg_view.c
+	made the concussion effect longer (flashbang was an assaultweapon!)
+* patched game/variables.h
+	made the ak47/m4/m14 a lil bit more inaccurate (n`kenny only scored
+	headshots) (0.2, was 0.15 before)
+* patched game/g_combat.c G_Damage
+	patched the damage taken when shot through the vest
+	reworked headshot when wearing a helmet. Only
+	 - Snipers and
+	 - M14
+	are going through the helmet
+* patched cgame/cg_main.c cgame/cg_draw.c cgame/cg_local.h
+	added cvar cg_crosshairFade
+	guess what it does ;)
+* patched game/g_cmds.c
+	removed the callvote timelimit "12oerksblablablub" thingy
+
+2004/02/02c:
+* patched game/variables.h
+	made ak47/m4/m14 a lil bit more accurate (0.15, was 0.3 before)
+
+2004/02/02b:
+* patched game/g_missile.c
+	found a small bug related to smoke
+* patched cgame/cg_ents.c
+	removed a small bug related to smoke
+
+2004/02/02a:
+* patched cgame/cg_draw.c
+	crosshair doesn't vanish for 100% now, it's more like 1.9, but
+	got a wider spread and lil bit more vanish when sprinting
+* patched cgame/cg_ents.c
+	made the spread of smokenades inside houses not that big to
+	prevent them from going through walls too much
+
+2004/02/01c-e:
+* patched game/g_weapon.c cgame/cg_weapons.c
+	fixed bug with laserpointer (must be activated to give better
+	accuracy)
+* patched cgame/cg_draw.c
+	fixed crosshair
+* patched game/variables.h
+	fixed pistol accuracy
+	fixed flashbang range
+* patched game/bg_pmove.c
+	scope kicks out when jumping / sprinting
+
+2004/02/01b:
+* patched game/g_seals.c game/g_active.c
+	removed the kickout of scope
+* patched game/bg_move.c
+	when scoping, the movement is slow
+* patched cgame/cg_draw.c CG_DrawStaticCrosshair
+	fixed algorithm
+
+2004/02/01a:
+* patched game/g_weapons.c fire_weapon_flashbang fire_weapon_grenade
+fire_weapon_smoke
+	changed the spawnpoint for grenades / flashbangs / smokenades
+	when thrown to 4cm over the players head (so they won't spawn
+	on the other side of a door now and it looks better)
+* patched cgame/cg_draw.c CG_DrawStaticCrosshair
+	no crosshair for:
+	flashbangs, grenades, smokegrenades
+	khurkuri, sealsknife
+	m4 / ak47 with grenadelauncher activated
+* patched cgame/cg_draw.c CG_DrawCrosshair
+	crosshair vanishes if running too fast
+* patched game/g_active.c ClientThink_real
+	patched that a player gets kicked out of scope if he uses a GL
+* patched game/g_seals.c NS_WeaponMode
+	if player is moving faster then walking or using a GL he's not allowed
+	to use a scope
+* patched cgame/cg_view.c CG_CalcViewValues CG_CalcFov
+	added a concussion effect when the player is hit by the BANG effect
+
+2004/01/31d:
+* patched game/g_weapons.c
+	fixed bomb distribution code
+
+2004/01/31c:
+* patched game/g_weapons.c
+	made selection of player getting the c4 true round robin
+* patched game/g_seals.c NS_CheckLocationDamage
+	tweaked headshots again
+* patched cgame/cg_main.c ui/ui_main.c
+	removed blutengel debug messages
+
+2004/01/31b:
+* patched game/variables.h
+	tweaked duration of the smoke grenades
+
+2004/01/31a:
+* worked on cgame/cg_weapons.c CG_EjectBrass
+	it is not fixable to prevent ejecting brass from m4/ak47. the
+	player knows the weapon that was shooting, but it does not have
+	the weaponstate of other players. he does not know if someone is
+	using a GL. sad but true, wontfix.
+* added LOCAL files:
+	media/icons/weapons/smoke.tga
+	media/models/weapons/smoke/* (patched flashbang models with hexeditor)
+* added CVS files:
+	scripts/weapon_g_smoke.cfg
+* patched game/g_seals.c / NS_RandomPlayer
+	made selection true round robin (VIP / BOMB)
+* patched compile.sh
+	now creates 2 packages, one code and one media
+* patched game/variables.h
+* patched game/g_missile.c
+* patched cgame/cg_ents.c
+	added open area hacks for the smoke grenade
+	added different color to smoke grenade depending on maptype
+
+2004/01/30b:
+* patched game/g_missile.c G_ExplodeSmokenade
+	added this function with a better smokenade effect
+* patched game/g_missile.c G_ExplodeMissile / G_MissileHitWall
+	patched to new smokenade effect
+* patched cgame/cg_ents.c
+	patched to new smokenade effect (search for MF_SMOKE)
+* patched game/variables.h
+	added new variables for smokenade
+* patched game/g_seals.c CG_CheckLocationDamage
+	made tango headshot hitbox smaller
+* patched game/g_gameentities.c Assault_Field_Think
+	removed bug #129
+
+2004/01/30a:
+* patched game/g_gameentities.c assault_field_think
+	if a player dies in an assault field, the stuff related to the
+	assaultfield is removed.
+* patched cgame/cg_main.c CG_DoWeaponConfig
+* patched ui/ui_main.c UI_RunExtendedMenuScript
+	added a debug message
+
+2004/01/29b:
+* added default.cfg
+	new default settings which should be included into the pak
+* patched game/variables.h
+	tweaked recoil settings of all weapons (smg's where snipers almost)
+* patched game/g_weapons.c
+	bug with shotguns removed (crouching made the spread lower)
+
+2004/01/29a:
+* patched cgame/cg_ents.c
+	reenabled floating of the bomb
+* patched cgame/cg_weapons.c CG_Mwheel_f / CG_Weapon_f
+	fixed weapon selection
+
+2004/01/27a:
+* patched game/g_seals.c
+	enabled debugging of locational damage
+	fixed number of grenades
+* patched ../ui/ingame_char.menu
+	40mm grenades are now called Smoke grenades
+* patched cgame/cg_ents.c
+	removed the flare under the bomb
+	removed the floating of the bomb
+
+2004/01/26a:
+* patched cgame/cg_playerstate.c
+	patched CheckLocalSounds as there could be a bug when joining
+	unpure servers. Seemed to be a q3 bug with variable initialization
+	which one has to workaround.
+* patched game/g_weapons.c Apply_Weapon_Kick
+	added some parts of defconXs weaponhandling 
+* patched game/variables.h
+	tweaking weapon settings now. Needs new testing however
+* patched cgame/cg_ents.c
+	the flare that gets spawned when someone drops the bomb will now
+	be floating OVER the bomb and not at (0,0,0).
+* patched several files to find weaponchangebug
+	cgame/cg_event.c -> line 521
+	cgame/cg_newDraw.c -> line 1699
+	cgame/cg_playerstate.c -> line 342
+
+2004/01/25a:
+* patched game/g_cmds.c
+	added floodprotection for say / say_team / say_target / say_radio
+* patched cgame/cg_events.c
+	removed debugmessage
+* patched game/variables.h
+		patched the scope mod for snipers. Sniper should ne be too accurate
+		when walking and scoping. Here are my calculations:
+		Sniper is crouching still and scoping: delfection angle of 0.02
+		meaning a deflection of 10cm at about 287m (pretty accurate)
+		Sniper is strafe-walking through a building: deflection angle
+		of 0.08 meaning a deflection of 10cm at about 72m (you will
+		miss the head!)
+
+2004/01/24b:
+* patched game/g_seals.c
+	fixed number of grenades (no grenades actually needs a -1 lol)
+* patched game/g_cmds.c / G_SayTo
+	Spectators cannot say anything public anymore (at least i hope that)
+
+2004/01/24a:
+* patched cgame/cg_main.c / cgame/cg_local.h / cgame/cg_events.c
+	added 4 differend sound effects for flashbang which depend on the
+	time beeing flashed
+* patched ui/ui_main.c
+	added menu background music
+* patched game/variables.h
+	tweaked the flashbang a lil bit
+	flashed from behind only has 40% of blindtime now
+	flashbang fade is to 3 seconds now
+	flashbang time is to 8 seconds now
+	To conclude: 
+	  5 seconds maximum blind 100% if standing in front
+	    of a flashbang and looking into it
+	  0.2 seconds maximum blind 100% if standing in front
+	    of a flashbang and not looking into it
+* patched almost all files in cgame
+	decoupled flashbang blindtime from deaftime. if you don't look into
+	the flashbang and are not really blinded, you still can be very deaf.
+
+2004/01/23a:
+* patched game/variables.h
+	slightly increased recoil when running
+	tweaked weapons a lil bit
+
+2004/01/22g:
+* patched game/variables.h
+	increased recoil
+* patched game/g_weapons.c
+	removed a bug in Apply_Weapon_Kick
+		somehow the variables in bytecode won't be initialized new 
+		and therefore a variable in a function will keep it's value
+		over several function calls
+
+2004/01/22c:
+* patched game/g_seal_menu.c
+	removed the drop weapon bug
+* patched game/g_seals.c
+	removed the ui bug with grenades
+
+2004/01/22b:
+* patched game/g_weapons.c
+	more knockback to shotguns
+
+2004/01/22a:
+* patched game/variables.h
+	weapon tweaks: shotguns / heavy pistols
+
+2004/01/21/e:
+* patched game/variables.h
+	tweaked weapons lil bit
+* patched game/g_weapons.c
+	removed a bug in recoil calculation
+
+2004/01/21c/d:
+* patched game/variables.h
+	tweaked lil lil bit
+* patched game/g_weapons.c
+	removed a bug in weapons recoil calculation
+* patched all files containing a G_LogPrintf
+	patched them to a format better usable for gtk
+
+2004/01/21a/b:
+* patched game/variables.h
+	tweaked weapon settings
+* patched cgame/cg_playerstate.c
+	removed buffer overflow in CheckLocalSounds
+
+2004/01/20c:
+* patched game/variables.h
+	tweaked weapon settings
+* patched ui/ui_main.c ui/ui_local.h cgame/cg_consolecmds.c
+	removed delayed xp distribution code (as it was bugged sometimes).
+	Now it works however, but could produce lags sometimes. 
+	Anyhow, I have to rewrite the whole UI for the next feature release.
+	The whole UIs should be reworked to have a better look, better
+	functionality and depend only on CLIENTSIDE data (!!!!)
+	Big Bad Example:
+		* client connected to server with ping 140
+		* every click on a button implies a send new data to server and
+			fetch the actual data from server
+		* this implies 140 + s + 140 = 280 + s milliseconds delay (for
+			s really small hopefully)
+		* this means only 4 clicks per second are recognized!!!!!!
+	How to make it better:
+		* everything in the menu should depend only on clientside code
+		* after hitting ACCEPT, all is sent to server
+		* the reply will be there withing one second (if 500 ping)
+
+2004/01/21a:
+* patched game/variables.h
+	tweaked settings
+* patched ui/ui_main.c ui/ui_local.h cgame/cg_consolecmds.c
+	removed the delayed XP distribution (but didn't remove the
+	save of network bandwidth)
+
+2004/01/20b:
+* patched game/variables.h
+	tweaked weapon settings
+
+2004/01/20a:
+* patched game/variables.h
+	added all variables for weapon kickback
+* patched game/g_weapons.c
+	reworked apply_weapon_kick
+* patched game/g_seals_menu.c
+	standard magazines: 4
+	standard nades: 1 / 1 / 1
+* patched ui/ui_main.c
+	made the character variables read only
+
+2004/01/19a:
+* patched ../ui/ingame.menu ../ui/ingame_char.menu
+	changed to ui_char variables and new ui_char handling
+* patched cgame/cg_consolecmds.c
+	added and tweaked ResetXPDist to work better with new menus
+	added SendXPDist
+	added OpenXPDist
+* patched cgame/cg_main.c
+	added a BLUTENGEL DEBUG MESSAGE because hagen was hit by a
+	weaponchangebug. this message is the only position in client code
+	where the weapon gets changed
+* patched cgame/cg_playerstate.c
+	CheckLocalSounds now works better with the UI
+	the weapons are changed according to the team the player joins
+* patched game/g_gameentities.c
+	tweaked a G_LogPrintf message for gtk
+* patched game/g_seal_menu.c
+	patched the default number of magazines to 4 instead of 5. so now the
+	default character has:
+	acc 1, str 1, spd 1, sta 1, sth 1, tec 1
+	mp5 / mac10 with 4 mags
+	1 HE nade, 1 Flashbang
+	a kevlar west
+* patched game/g_weapon.c
+	FireWeapon: removed the static weapons damage and made it freely
+	configurable for the coder
+* patched game/variables.h
+	the weapon damage config is included into this file
+	set the blindtime to 5 secs max (was 4 before)
+	reduced the blindtimefactor if the flashbang went off behind from
+	0.6 to 0.5
+	changed maximum walking speed to 130
+	changed riffles (ak47, m4, m14) recoil to 0.6 when standing, 1.2
+	when crouching and 2.4 when walking
+	changed pistols recoil when jumping to 6.0
+* patched ui/ui_local.h
+	added the prototypes of the new ui_char console variables
+* patched ui/ui_main.c
+	added 7 new ui_char variables for the UI Menu
+	ui_character is archive, all other temporary
+	patched all necessary functions to work with the new variables
+	removed charvalues[bla]
+
+2004/01/16a:
+* patched all files including BLUTENGEL DEBUG MESSAGE
+	removed the debug messages
+* patched g_cmds.c / StopFollowing
+	removed the spontaneous teamchange bug
+
+2004/01/15b:
+* patched game/g_client.c game/g_cmds.c game/g_session.c
+	added more debug info to BLUTENGEL DEBUG MESSAGE
+
+2004/01/15a:
+* patched cgame/cg_playerstate.c
+	added more debug info to BLUTENGEL DEBUG MESSAGE
+* patched cgame/cg_weapons.c
+	removed the bug with bulletmarks not showing up
+* patched game/bg_misc.c
+	removed the message "Couldn't find item for ..."
+* patched game/g_client.c
+	added a BLUTENGEL DEBUG MESSAGE
+* patched game/g_cmds.c
+	added more debug info to BLUTENGEL DEBUG MESSAGE
+	reworked the voting options (teampointlimit, timelimit are now bound to
+	5-80 meaning no infinite games can be voted anymore)
+* patched game/g_seal_menu.c
+	now a client gets grenades and flashbangs when entering a game (too late)
+* patched game/g_weapon.c
+	reworked the weapon kick of the MG (which is way bigger now if not crouched)
+* patched ui/ui_main.c
+	reduced some buffer sizes
+
+2004/01/14a:
+* patched cgame/cg_weapons.c
+	fixed tracers (hopefully)
+* patched cgame/cg_playerstate.c cgame/cg_main.c
+	fixed xp distribution (hopefully)
+	added 2 debug messages for debugging XP and spontaneous weaponchanges
+* patched game/variables.h
+	fixed shotgun-spead and duckbill
+	tweaked pistol to shoot more accurate when jumping / sprinting. it's now
+	the only weapon which can be used while jumping / sprinting (although
+	closecombat only)
+* patched cgame/cg_newDraw.c
+	removed Enemy: blabla messages for sure
+* patched game/g_cmds.c
+	removed the flood protection as it was too restrictive
+
+2004/01/13:
+* patched nsco/cgame/cg_consolecmds.c RestXP
+patched nsco/ui/ui_main.c
+patched nsco/ui/ui_shared.c ui_shared.h
+	removed the updatecharacter code in all those files
+	reworked the xp distribution code. resetxp in consolecmds now sets a
+	ui_character cvar which is also used in ui_main.c when recalculating the
+	xp. therefore one does not need to read the character variable except
+	once and can distribute xp lag free
+* patched nsco/cgame/cg_playerstate.c CG_TransistionPlayerState
+	added is_flashed = qflase;
+	now a spectator getting flashed and changing players will not be flashed
+	anymore after he changed it.
+* patched nsco/compile.sh
+	added 'release' option which forces me first to change the version number
+	before i can compile it :D
+* patched nsco/game/variables.h nsco/game/cg_newDraw.c CG_DrawCrosshairEntity
+	removed the message below the crosshair that an enemy was spotted
+* patched nsco/game/g_cmds.c
+	added flood protection against say / say_team / radio spamming
+* reintegrated bullet prediction
+	file: nsco/cgame/cg_weapons.c CG_PredictFireLead -- the prediction code
+* made bullet prediction selectable by cg_bulletpredict
+	files: nsco/cgame/cg_main.c nsco/cgame/cg_events.c nsco/cgame/cg_local.h
+
+2004/01/12:
+* patched nsco/cgame/cg_view.c / CG_DrawActiveFrame
+	removed the soundeffect from flashbangs from spectators
+* patched nsco/ui/ui_main.c / vmMain / CG_SetCharacter /
+CG_DrawCharacterButton / CG_HandleCharacterButton / CG_GetTotalXPforAllLevels
+	removed the lag during XP distribution
+* patched nsco/game/g_missile.c G_RunMissile
+	nades do not bounce from ceiling any more, but can bounce at virtual walls
+	so they cannot be thrown into a room via ceiling.
+* patched nsco/game/g_gameentities.c explosion_think / SP_info_bomb_disarm
+	removed bunker hack
+	removed sleepingwolf mapfix
+	removed snowcamp mapfix
+* patched nsco/game/g_seals.c NS_RandomPlayer
+	if a player is locked because of teamkilling he's not choosen as random
+	player (bomb / vip)
+* reworked hitcode system
+	bg_misc.c: added BG_HasLaser and BG_CalcSpeed
+	bg_public.h: added prototypes of new functions from bg_misc.c
+	g_active.c: patched that one gets kicked out of zoom when running /
+		sprinting
+	g_weapons.c: reworked the weapons shoot system (now depends on degrees
+		and can be configures via variables.h)
+	variables.h: added options related to recoil for all weaponclasses
+	cg_event.c: removed the blocking of BULLET_HIT_WALL events
+	cg_weapons.c: removed the prediction for bullet hits on the wall
+* reworked ui/ingame_char.menu
+	removed freexp
+	check in ui stuff for bug with this button ...
+	seems to be problem with old menu scripts 
+* reworked snipers
+	reduced their accuracy when unscoped
+* reworked shotguns
+	reduced pellets spawned to save network bandwidth
+* patched nsco/compile.sh
+	script now includes ui/*menu by default into the pak6.pk3
+* patched nsco/cgame/cg_consolecmds.c
+	added function CG_ResetXP
+* patched nsco/cgame/cg_players.c CG_ResetPlayerEntities
+	removed the bug with nextSnap == NULL
+* patched nsco/game/bg_public.h
+	removed some shotgun pellets
+* patched nsco/cgame/cg_playerstate.c
+	removed that strance CG_SendInventory_f() command that was no use
+	exchanged seals for tangos as this might be the problem with sudden
+	weaponchange
+* patched nsco/game/g_weapon.c Fire_Lead
+	added Laser support to SMGs
+* patched ui/ui_main.c
+	tried to fix the freexp-bug ... weird with old menu scripts
+* patched ui/ui_shared.c
+	added function UI_UpdateCVarCharacter
+* patched ui/ui_shared.h
+	added function prototype UI_UpdateCVarCharacter
+
+2004/01/10:
+* patched nsco/cgame/cg_weapons.c / CG_Tracer
+	put the tracer to begin 1 meter in front of the attacker
+* patched nsco/game/g_missile.c / fire_grenade / flashbang / smokenade
+	made as Democritus said the range of a nade more depandent from the
+	strength. there is now a base range for throwing and rolling a nade. to this
+	baserange there will be added strength/10*base_range*range_factor. the 
+	range_factor is defined in nsco/game/variables.h and is defaulted to 0.5
+* patched nsco/game/g_cmds.c / ClientCommand
+	removed the 'funny' console commands insulting players.
+* patched nsco/cgame/cg_players.c/ CG_ResetPlayerEntity
+	This function is called everytime a player gets near anotherplayer to reset 
+	the graphical data. due to the sounddesign of nsco (the sound will only
+	be played if the client is near), this routine produced the
+	soundbug (as a sound was played when the routine was executed).
+	Fix: set the client in charge to interpolate and set the next predictable
+	event (mostly an OLD event) to already be processed.
+	Anyhow, this is a HAX-fix because the code seems to be from an old point
+	release and i just hacked around the problem in charge (that not all sounds
+	are transmitted to the client ...)
+
+2004/01/09:
+* fixed dates in changelog :lol:
+* patched nsco/game/g_missile.c nsco/cgame/cg_event.c
+	the BANG effect from the flashbang is now played regardless if it's behind
+	or in front of the player. The FLASH effect is calculated in cg_event.c
+	and therefore i added a new variable in nsco/game/variables.h
+	indicating the factor to multiply the FLASH effect durating with if the
+	flashbang went off behind the player.
+* fixed assaultfieldbug (probably)
+	patched nsco/game/g_gameentities.c assault_field_stop and
+	assault_field_think
+	perhaps the fix in assault_field_stop was lil bit too much
+* added debug output
+	must remove debug output from nsco/game/g_combat.c and
+	nsco/game/g_gameentities before release. the output in g_combat.c
+	is for debugging the nades. You can die if the nade just inflices 2 
+	damage to you if it's inflicting to your head. If so, it's not a nadebug,
+	it's a feature in weapons-code i must remove.
+	The output in g_gameentities are the debug message from Defcon-X
+	redirected to all client screens. I want to see if the assaultfield bug
+	still exists and if so, those messages should give me a clue.
+* removed debug output
+	see above for details
+* assaultfieldbug
+	should be resolved now. only had to change assault_field_stop in
+	nsco/game/g_gameentities.c
+* removed VIP crash bug
+	actually it was no bug, it was a feature ^^
+	in game/g_seals.c was the initialization routine for VIP gameplay. If no
+	VIP could be spawned, the server reported an error bringing the game-server
+	down. So if the whole VIP team did teamkills and noone is allowed to play,
+	the server reported an error forcing the gameserver to shut down. Therefore
+	i changed the behaviour to:
+	If there is no VIP, the opposing team wins.
+* patched game version to 1.9a
+	must be done in game/bg_public.h AND cgame/cg_info.c
+
+2004/01/08:
+* fixed flashbang code in nsco/cgame/cg* files
+	there is now a variable called is_flashed which is defined in
+	nsco/cgame/cg_draw.c. This variable is indicating if and only if
+	the player is 100% flashed (meaning he doesn't see anything at all).
+	This variable is used in several files to block the execution
+	of ALL KNOWN trap_S_StartSound in cgame. So there will be no nonlocal
+	sound played when beeing flashed
+* patched nsco/game/variables.h
+	added a variable concerning flashbangs and documented variables
+* patched nsco/compile.sh
+	now the script got 5 options:
+	cgame: will only recompile cgame and repack it
+	game:  will only recompile game and repack it
+	ui:    will only recompile ui and repack it
+	pack:  will only repack everything
+	all:   is the default in will recompile everything
+	by default after every option the generated pak6.pk3 is installed to
+	${HOME}/.q3a/seals-testing
+* patched nsco/game/g_combat.c G_RadiusDamage
+	totally rewritten this routine. Features:
+	- Only entities which can take damage where looked at
+	- if the entity is a player, there must be a line of sight
+	  to the feet, to the chest or to the head
+	- if the entity is not a player, one of the 6 planes creating the 
+	  bounding box must be in line of sight
+	- if a player is ducked, the damage will only be 2/3 of the original damage
+	Anyhow, this change needs a big test (don't want to have grenades with
+	issues again)
+* fixed several old flashbang bugs
+	actually there was an anti-flashbang existing. anyhow, i rewrote the code as
+	it was bugged. Features:
+	- if you get hit by a flashbang you can just get a small flicker indicating
+	  the FB hit you (far away) or full effect (close)
+	- the annoying sound is only played if the player is at least for 10 msecs
+	  100% blinded
+	- if 100% blinded, no nonlocal sound is played
+	- if a player gets hit by 2 flashbangs, only the bigger effect will count
+* removed delayed leg damage from nsco/game/g_combat.c and nsco/game/g_seals.c
+	function nsco/game/g_combat.c - G_Damage         patched
+	function nsco/game/g_seals.c  - NS_CauseBleeding patched
+	just had to remove the delayed leg damage and take the old code back in
+	again. Seems to work, needs to be tested.
+* removed the server death-spamming / several files in nsco/game/*
+	while playing, the server could death-spam a client. This happend mostly
+	when a player pressed the USE button and tried to defuse a bomb. the
+	server didn't stop spamming the client with messages that the bomb is
+	for the other team or the bomb cannot be defused.
+	Changes:
+	game/g_local.h: datastructure clientPersistant_t
+		removed - teamVoteCount (was not used)
+		added   - lmt (last message time)
+	game/g_client.c: function ClientBegin
+		added initialization code for client->pers.lmt
+	game/g_cmds.c: function Cmd_CallTeamVote
+		removed code related to teamVoteCount (was the only place)
+	game/g_weapon.c: functions bomb_touch and bomb_use
+		changed the PrintMsg code. a player gets a max of one PrintMsg from this
+		functions in a second.
+* XXX in nsco/game/g_local.h / clientPersistant_t
+	the structure must not have bigger size (dunno why), resolved this
+	with the help of Defcon-X. Anyhow, make another test when adding a
+	variable at the beginning and one at the end!
+* patched nsco/game/g_combat.c
+	i created a headshot bug there (headshots where not possible any more).
+	fixed that (had to out-comment the first if statement)
+		
+
+2004/01/07:
+* added nsco/game/variables.h
+	this file will from now on contain all important variable settings
+	vor navy seals. changing a variable in this file will change them
+	in the whole nsco code
+* fixed flashbug in nsco/game/g_missile.c
+	unlinked the assaultfield entities _BEFORE_ calculating a better position 
+	for the flashbang to go off (it vanished in the floor before)
+* removed unnecessary messages
+	removed several unnecessary messages. the most important message removed
+	was the 'WARNING: Wrong character cvar - default character used'. This 
+	happens everytime a player joins a server and therefore does not have
+	a character yet.

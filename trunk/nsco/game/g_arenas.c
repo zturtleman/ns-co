@@ -1,0 +1,5 @@
+// eof
+void empty()
+{
+
+}

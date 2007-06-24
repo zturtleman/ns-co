@@ -1,0 +1,8 @@
+2004/02/28:
+* make a deathradius for nades
+
+2003/01/10: 
+* set the gameversion in
+	nsco/game/bg_public.h
+	_AND_
+	nsco/cgame/cg_info.c
